@@ -6,13 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <main>
+    <main class="container">
  		<section class="about">
  			<h1 class="about__title"><strong class="about__name">Yann Kubacki</strong><span class="about__job"> — Interactive developer</span></h1>
  			<p class="about__intro">
- 				I’m a student at Gobelins and I currently work<br>
-				at <a href="http://www.octaveoctave.com/" target="_blank">Octave &amp; Octave</a>. Previously I've worked<br>
-				at <a href="http://impala-webstudio.fr/" target="_blank">Impala Webstudio</a> for a year.
+                I’m a student at Gobelins Paris and I currently work <br> at <a href="http://www.octaveoctave.com/" target="_blank">Octave &amp; Octave</a>. Previously I've worked at <a href="http://impala-webstudio.fr/" target="_blank">Impala Webstudio</a> for a year.
  			</p>
  			<div class="about__projects">
                 <p class="about__projects-title">Projects I've worked on at Octave &amp; Octave</p>
@@ -26,9 +24,9 @@
  			</div>
  		</section>
         <section class="projects">
-            <div class="projects__links">
-                <a href="http://maliki.com/" target="_blank" class="projects__link">Maliki<time datetime="2015-10">09.2015</time></a>
-                <a href="https://github.com/arnaudrocca/VFA17" target="_blank" class="projects__link">VFA17<time datetime="2016-06">06.2016</time></a>
+            <div class="projects__titles">
+                <h2 class="projects__title"><a href="http://maliki.com/" target="_blank" >Maliki<time datetime="2015-10">09.2015</time></a></h2>
+                <h2 class="projects__title"><a href="https://github.com/arnaudrocca/VFA17" target="_blank" >VFA17<time datetime="2016-06">06.2016</time></a></h2>
             </div>
             <div class="projects__visuals">
                 <div class="projects__visual"></div>
@@ -40,6 +38,60 @@
                     <li class="projects__tags-list-item">#Front-end dev</li>
                     <li class="projects__tags-list-item">#Wordpress dev</li>
                 </ul>
+            </div>
+        </section>
+        <section class="projects-mobile">
+            <div class="projects-mobile__project">
+                <a href="http://maliki.com/" class="projects-mobile__thumbnail" target="_blank">
+                    <img src="http://lorempicsum.com/simpsons/760/480/2" alt="Maliki">
+                </a>
+                <div class="projects-mobile__header">
+                     <h2 class="projects-mobile__title">
+                        <a href="http://maliki.com/" target="_blank">
+                            Maliki
+                            <time datetime="2015-10">09.2015</time>
+                        </a>
+                    </h2>
+                    <button class="projects-mobile__btn-more">More details</button>
+                </div>
+               <div class="projects-mobile__infos">
+                   <p class="projects-mobile__description">
+                       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque ad quia officiis aperiam blanditiis sint dolore officia ea repudiandae ullam voluptas eum, quisquam iste? Praesentium ullam laborum, rem eaque ex.
+                   </p>
+                   <ul class="projects-mobile__tags-list">
+                        <li class="projects-mobile__tags-list-item">#Conception</li>
+                        <li class="projects-mobile__tags-list-item">#UX</li>
+                        <li class="projects-mobile__tags-list-item">#Front-end dev</li>
+                        <li class="projects-mobile__tags-list-item">#Wordpress dev</li>
+                    </ul>
+                    <a href="http://maliki.com/" target="_blank" class="projects-mobile__btn-cta">Visite website</a>
+               </div>
+            </div>
+            <div class="projects-mobile__project">
+                <a href="https://github.com/arnaudrocca/VFA17" class="projects-mobile__thumbnail" target="_blank">
+                    <img src="http://lorempicsum.com/simpsons/760/480/2" alt="Maliki">
+                </a>
+                <div class="projects-mobile__header">
+                     <h2 class="projects-mobile__title">
+                        <a href="https://github.com/arnaudrocca/VFA17" target="_blank">
+                            VFA17
+                            <time datetime="2015-10">06.2016</time>
+                        </a>
+                    </h2>
+                    <button class="projects-mobile__btn-more">More details</button>
+                </div>
+               <div class="projects-mobile__infos">
+                   <p class="projects-mobile__description">
+                       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque ad quia officiis aperiam blanditiis sint dolore officia ea repudiandae ullam voluptas eum, quisquam iste? Praesentium ullam laborum, rem eaque ex.
+                   </p>
+                   <ul class="projects-mobile__tags-list">
+                        <li class="projects-mobile__tags-list-item">#Conception</li>
+                        <li class="projects-mobile__tags-list-item">#UX</li>
+                        <li class="projects-mobile__tags-list-item">#Front-end dev</li>
+                        <li class="projects-mobile__tags-list-item">#Creative dev</li>
+                    </ul>
+                    <a href="https://github.com/arnaudrocca/VFA17" target="_blank" class="projects-mobile__btn-cta">See on Github</a>
+               </div>
             </div>
         </section>
     	<nav class="social">

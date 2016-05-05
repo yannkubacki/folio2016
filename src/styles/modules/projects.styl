@@ -5,7 +5,7 @@
 	width 50vw
 	height 100vh
 	
-	&__links
+	&__titles
 		position absolute
 		top -2.5rem
 		left -18rem
@@ -16,9 +16,9 @@
 		height 100vh
 		color $black
 		
-	&__link
+	&__title
 		position relative
-		margin-bottom 2.5rem
+		margin-bottom 1rem
 		font-family $Moderat-Bold
 		font-size 10rem
 		
@@ -39,7 +39,7 @@
 				background $indigo
 				pointer-events none
 			
-		> time 
+		time 
 			margin-left 1.5rem
 			vertical-align 5.7rem
 			font-family $Moderat
@@ -91,3 +91,6 @@
 				height 2rem
 				width 2rem
 				background $grey-light
+		
+	@media (max-width: 992px)
+		display none
