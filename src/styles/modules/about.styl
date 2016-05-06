@@ -19,32 +19,40 @@
 			position relative
 			display inline-block
 			
-			&:after
+			&:before
 				content ''
+				display block
 				position absolute
 				z-index 1
 				bottom 0.2rem
 				left 0
-				width 100%
+				width 0
 				height 0.1rem
-				background rgba($indigo, 0.25)
+				transition width 0s ease, background .2s ease-out
 				
-			&:before
+			&:after
 				content ''
 				position absolute
 				z-index 2
 				bottom 0.2rem
-				left 0
+				right 0
 				width 0
 				height 0.1rem
 				background $indigo
-				transition background,width 0.2s ease-out 
-				
+				overflow hidden
+				transition width .2s ease-out
+					
 			&:hover
-	
 				&:before
-					width 100%			
-		
+					width 100%
+					background $indigo
+					transition width .2s ease-out
+					
+				&:after
+					width 100%
+					background transparent
+					transition all 0s ease-out
+	
 	&__projects
 		margin-top 4rem
 		
@@ -60,21 +68,39 @@
 			position relative
 			display inline-block
 			
-			&:after
+			&:before
 				content ''
+				display block
 				position absolute
 				z-index 1
 				bottom 0.2rem
 				left 0
 				width 0
 				height 0.1rem
+				transition width 0s ease, background .2s ease-out
+				
+			&:after
+				content ''
+				position absolute
+				z-index 2
+				bottom 0.2rem
+				right 0
+				width 0
+				height 0.1rem
 				background $indigo
-				transition width 0.2s ease-out 
-				
-			&:hover 
-				
+				overflow hidden
+				transition width .2s ease-out
+					
+			&:hover
+				&:before
+					width 100%
+					background $indigo
+					transition width .2s ease-out
+					
 				&:after
 					width 100%
+					background transparent
+					transition all 0s ease-out
 			
 		&:before 
 			content ''
