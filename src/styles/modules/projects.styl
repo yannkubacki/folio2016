@@ -26,32 +26,33 @@
 			margin-left 7rem
 		
 		&:last-child
-			margin-bottom 0
-			
-			&:after
-				content ''
-				position absolute
-				top 16rem
-				left 15rem
-				display block
-				width 17rem
-				height 2rem
-				background $indigo
-				pointer-events none
+			margin-bottom 0	
 			
 		time 
+			display inline-block
 			margin-left 1.5rem
 			vertical-align 5.7rem
 			font-family $Moderat
 			font-size 2rem
+			
+	&__underline
+		position absolute
+		top 17rem
+		left 15rem
+		display block
+		width 17rem
+		height 2rem
+		background $indigo
+		pointer-events none
+		overflow hidden
 	
 	&__visuals
 		position relative
 		z-index 2
 		width 25vw
 		height 100vh
-		background $grey
 		overflow hidden
+		will-change width
 		
 	&__visual
 		position absolute
@@ -60,12 +61,13 @@
 		height 100vh
 		background url('http://lorempicsum.com/simpsons/500/1920/2') center
 		background-size cover
+		opacity 0.25
 		
 	&__tags
 		position absolute 
 		top 50vh
 		left calc(25vw + 6rem)
-		display flex
+		display none
 		flex-direction column
 		justify-content center
 		height 50vh
@@ -92,5 +94,5 @@
 				width 2rem
 				background $grey-light
 		
-	@media (max-width: 992px)
+	@media (max-width: $desktop)
 		display none
