@@ -10,30 +10,38 @@
  		<section class="about">
  			<h1 class="about__title"><strong class="about__name">Yann Kubacki</strong><span class="about__job"> — Interactive developer</span></h1>
  			<p class="about__intro">
-                I’m a student at Gobelins Paris and I currently work <br> at <a href="http://www.octaveoctave.com/" target="_blank"><span>Octave &amp; Octave</span></a>. Previously I've worked at <a href="http://impala-webstudio.fr/" target="_blank"><span>Impala Webstudio</span></a> for a year.
+                I’m a student at Gobelins Paris and I currently work <br> at <a href="http://www.octaveoctave.com/" target="_blank"><span>Octave &amp; Octave</span></a>. Previously I've worked for a year at <a href="http://impala-webstudio.fr/" target="_blank"><span>Impala Webstudio</span></a>, and I'm now looking for an apprenticeship for my next two years at Gobelins.
  			</p>
  			<div class="about__projects">
-                <p class="about__projects-title">Projects I've worked on at Octave &amp; Octave</p>
+                <p class="about__projects-title">Projects I've worked on at Octave&nbsp;&amp;&nbsp;Octave :</p>
  				<ul class="about__list">
- 					<li class="about__list-item"><a href="https://www.lvmh.fr/" target="_blank">LVMH</a></li>
- 					<li class="about__list-item"><a href="http://www.smcp.com/" target="_blank">SMCP</a></li>
+ 					<li class="about__list-item"><a href="https://www.lvmh.fr/" target="_blank"><span>LVMH</span></a></li>
+ 					<li class="about__list-item"><a href="http://www.smcp.com/" target="_blank"><span>SMCP</span></a></li>
  					<li class="about__list-item about__list-item--confidential">Orange</li>
- 					<li class="about__list-item"><a href="http://www.mutualite.fr/" target="_blank">La mutualité française</a></li>
- 					<li class="about__list-item"><a href="https://www.airliquide.com/" target="_blank">Air Liquide</a></li>
+ 					<li class="about__list-item"><a href="http://www.mutualite.fr/" target="_blank"><span>La mutualité française</span></a></li>
+ 					<li class="about__list-item"><a href="https://www.airliquide.com/" target="_blank"><span>Air Liquide</span></a></li>
  				</ul>
  			</div>
  		</section>
         <section class="projects">
             <div class="projects__titles">
-                <h2 class="projects__title"><a href="http://maliki.com/" target="_blank" >Maliki<time datetime="2015-10">09.2015</time></a></h2>
-                <h2 class="projects__title"><a href="https://github.com/arnaudrocca/VFA17" target="_blank" >VFA17<time datetime="2016-06">06.2016</time></a><span class="projects__underline"></span></h2>
+                <h2 class="projects__title"><a href="http://maliki.com/" target="_blank" data-index="1" class="js-projects-link">Maliki<time datetime="2015-10">09.2015</time></a></h2>
+                <h2 class="projects__title"><a href="https://github.com/arnaudrocca/VFA17" data-index="2" target="_blank" class="js-projects-link">VFA17<time datetime="2016-06">06.2016</time></a><span class="projects__underline"></span></h2>
                 
             </div>
             <div class="projects__visuals">
                 <div class="projects__visual"></div>
+                <div class="projects__visual"></div>
+                <div class="projects__visual"></div>
             </div>
             <div class="projects__tags">
-                <ul class="projects__tags-list">
+                <ul class="projects__tags-list js-projects-tags" data-index="1">
+                    <li class="projects__tags-list-item">#Conception</li>
+                    <li class="projects__tags-list-item">#UX</li>
+                    <li class="projects__tags-list-item">#Front-end dev</li>
+                    <li class="projects__tags-list-item">#Wordpress dev</li>
+                </ul>
+                <ul class="projects__tags-list js-projects-tags" data-index="2">
                     <li class="projects__tags-list-item">#Conception</li>
                     <li class="projects__tags-list-item">#UX</li>
                     <li class="projects__tags-list-item">#Front-end dev</li>
@@ -42,7 +50,7 @@
             </div>
         </section>
         <section class="projects-mobile">
-            <div class="projects-mobile__project">
+            <div class="projects-mobile__project js-expand">
                 <a href="http://maliki.com/" class="projects-mobile__thumbnail" target="_blank">
                     <img src="http://lorempicsum.com/simpsons/760/480/2" alt="Maliki">
                 </a>
@@ -53,9 +61,9 @@
                             <time datetime="2015-10">09.2015</time>
                         </a>
                     </h2>
-                    <button class="projects-mobile__btn-more">More details</button>
+                    <button class="projects-mobile__btn-more js-expand-btn"><span>More details</span></button>
                 </div>
-               <div class="projects-mobile__infos">
+               <div class="projects-mobile__infos js-expand-content">
                    <p class="projects-mobile__description">
                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque ad quia officiis aperiam blanditiis sint dolore officia ea repudiandae ullam voluptas eum, quisquam iste? Praesentium ullam laborum, rem eaque ex.
                    </p>
@@ -68,7 +76,7 @@
                     <a href="http://maliki.com/" target="_blank" class="projects-mobile__btn-cta">Visite website</a>
                </div>
             </div>
-            <div class="projects-mobile__project">
+            <div class="projects-mobile__project js-expand">
                 <a href="https://github.com/arnaudrocca/VFA17" class="projects-mobile__thumbnail" target="_blank">
                     <img src="http://lorempicsum.com/simpsons/760/480/2" alt="Maliki">
                 </a>
@@ -79,9 +87,9 @@
                             <time datetime="2015-10">06.2016</time>
                         </a>
                     </h2>
-                    <button class="projects-mobile__btn-more">More details</button>
+                    <button class="projects-mobile__btn-more js-expand-btn"><span>More details</span></button>
                 </div>
-               <div class="projects-mobile__infos">
+               <div class="projects-mobile__infos js-expand-content">
                    <p class="projects-mobile__description">
                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque ad quia officiis aperiam blanditiis sint dolore officia ea repudiandae ullam voluptas eum, quisquam iste? Praesentium ullam laborum, rem eaque ex.
                    </p>

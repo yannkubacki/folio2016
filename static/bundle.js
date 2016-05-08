@@ -45,7 +45,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(1);
-	module.exports = __webpack_require__(4);
+	module.exports = __webpack_require__(7);
 
 
 /***/ },
@@ -56,19 +56,60 @@
 
 	__webpack_require__(2);
 
+	__webpack_require__(4);
+
+	var _expand = __webpack_require__(5);
+
+	var _expand2 = _interopRequireDefault(_expand);
+
+	var _projects = __webpack_require__(6);
+
+	var _projects2 = _interopRequireDefault(_projects);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 	window.onload = function () {
-		var tl = new TimelineLite();
-		tl.to('.projects__visuals', 0.5, {
-			width: '25vw',
-			ease: Cubic.easeInOut,
-			delay: 0.2
-		});
-		tl.staggerFrom('.projects__title', 0.5, {
-			x: -100,
-			opacity: 0,
-			ease: Sine.easeOut
-		}, 0.3);
-		tl.staggerFrom('.projects__title time', 0.3, { y: 20, opacity: 0 }, 0.3);
+
+		if (window.innerWidth > 992) {
+			var introTimeline = new TimelineLite();
+
+			introTimeline.to('.loader', 0.3, {
+				opacity: 0,
+				display: 'none',
+				ease: Power1.easeOut,
+				delay: 1
+			}).from('.projects__visuals', 0.8, {
+				width: 0,
+				ease: Quart.easeOut
+			}).staggerFrom('.projects__title', 0.3, {
+				x: -30,
+				opacity: 0,
+				ease: Power1.easeOut
+			}, 0.15, '-=0.3').staggerFrom('.projects__title time', 0.3, {
+				y: 25,
+				opacity: 0,
+				ease: Power1.easeOut
+			}, 0.15, '-=0.15').from('.projects__underline', 0.4, {
+				width: 0,
+				ease: Quart.easeOut
+			});
+		} else {
+			TweenMax.to('.loader', 0, {
+				opacity: 0,
+				display: 'none'
+			});
+		}
+
+		//Expands init
+		var expands = [];
+		var expandsNodes = document.querySelectorAll('.js-expand');
+
+		for (var i = expandsNodes.length - 1; i >= 0; i--) {
+			expands.push(new _expand2.default(expandsNodes[i]));
+		}
+
+		//Project init
+		var projects = new _projects2.default();
 	};
 
 /***/ },
@@ -983,15 +1024,294 @@
 
 /***/ },
 /* 4 */
+/***/ function(module, exports) {
+
+	/* WEBPACK VAR INJECTION */(function(global) {"use strict";
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+
+	/*!
+	 * VERSION: 1.7.6
+	 * DATE: 2015-12-10
+	 * UPDATES AND DOCS AT: http://greensock.com
+	 *
+	 * @license Copyright (c) 2008-2016, GreenSock. All rights reserved.
+	 * This work is subject to the terms at http://greensock.com/standard-license or for
+	 * Club GreenSock members, the software agreement that was issued with your membership.
+	 * 
+	 * @author: Jack Doyle, jack@greensock.com
+	 **/
+	var _gsScope = typeof module !== "undefined" && module.exports && typeof global !== "undefined" ? global : undefined || window; //helps ensure compatibility with AMD/RequireJS and CommonJS/Node
+	(_gsScope._gsQueue || (_gsScope._gsQueue = [])).push(function () {
+
+		"use strict";
+
+		var _doc = document.documentElement,
+		    _window = window,
+		    _max = function _max(element, axis) {
+			var dim = axis === "x" ? "Width" : "Height",
+			    scroll = "scroll" + dim,
+			    client = "client" + dim,
+			    body = document.body;
+			return element === _window || element === _doc || element === body ? Math.max(_doc[scroll], body[scroll]) - (_window["inner" + dim] || _doc[client] || body[client]) : element[scroll] - element["offset" + dim];
+		},
+		    ScrollToPlugin = _gsScope._gsDefine.plugin({
+			propName: "scrollTo",
+			API: 2,
+			version: "1.7.6",
+
+			//called when the tween renders for the first time. This is where initial values should be recorded and any setup routines should run.
+			init: function init(target, value, tween) {
+				this._wdw = target === _window;
+				this._target = target;
+				this._tween = tween;
+				if ((typeof value === "undefined" ? "undefined" : _typeof(value)) !== "object") {
+					value = { y: value }; //if we don't receive an object as the parameter, assume the user intends "y".
+				}
+				this.vars = value;
+				this._autoKill = value.autoKill !== false;
+				this.x = this.xPrev = this.getX();
+				this.y = this.yPrev = this.getY();
+				if (value.x != null) {
+					this._addTween(this, "x", this.x, value.x === "max" ? _max(target, "x") : value.x, "scrollTo_x", true);
+					this._overwriteProps.push("scrollTo_x");
+				} else {
+					this.skipX = true;
+				}
+				if (value.y != null) {
+					this._addTween(this, "y", this.y, value.y === "max" ? _max(target, "y") : value.y, "scrollTo_y", true);
+					this._overwriteProps.push("scrollTo_y");
+				} else {
+					this.skipY = true;
+				}
+				return true;
+			},
+
+			//called each time the values should be updated, and the ratio gets passed as the only parameter (typically it's a value between 0 and 1, but it can exceed those when using an ease like Elastic.easeOut or Back.easeOut, etc.)
+			set: function set(v) {
+				this._super.setRatio.call(this, v);
+
+				var x = this._wdw || !this.skipX ? this.getX() : this.xPrev,
+				    y = this._wdw || !this.skipY ? this.getY() : this.yPrev,
+				    yDif = y - this.yPrev,
+				    xDif = x - this.xPrev;
+
+				if (this.x < 0) {
+					//can't scroll to a position less than 0! Might happen if someone uses a Back.easeOut or Elastic.easeOut when scrolling back to the top of the page (for example)
+					this.x = 0;
+				}
+				if (this.y < 0) {
+					this.y = 0;
+				}
+				if (this._autoKill) {
+					//note: iOS has a bug that throws off the scroll by several pixels, so we need to check if it's within 7 pixels of the previous one that we set instead of just looking for an exact match.
+					if (!this.skipX && (xDif > 7 || xDif < -7) && x < _max(this._target, "x")) {
+						this.skipX = true; //if the user scrolls separately, we should stop tweening!
+					}
+					if (!this.skipY && (yDif > 7 || yDif < -7) && y < _max(this._target, "y")) {
+						this.skipY = true; //if the user scrolls separately, we should stop tweening!
+					}
+					if (this.skipX && this.skipY) {
+						this._tween.kill();
+						if (this.vars.onAutoKill) {
+							this.vars.onAutoKill.apply(this.vars.onAutoKillScope || this._tween, this.vars.onAutoKillParams || []);
+						}
+					}
+				}
+				if (this._wdw) {
+					_window.scrollTo(!this.skipX ? this.x : x, !this.skipY ? this.y : y);
+				} else {
+					if (!this.skipY) {
+						this._target.scrollTop = this.y;
+					}
+					if (!this.skipX) {
+						this._target.scrollLeft = this.x;
+					}
+				}
+				this.xPrev = this.x;
+				this.yPrev = this.y;
+			}
+
+		}),
+		    p = ScrollToPlugin.prototype;
+
+		ScrollToPlugin.max = _max;
+
+		p.getX = function () {
+			return !this._wdw ? this._target.scrollLeft : _window.pageXOffset != null ? _window.pageXOffset : _doc.scrollLeft != null ? _doc.scrollLeft : document.body.scrollLeft;
+		};
+
+		p.getY = function () {
+			return !this._wdw ? this._target.scrollTop : _window.pageYOffset != null ? _window.pageYOffset : _doc.scrollTop != null ? _doc.scrollTop : document.body.scrollTop;
+		};
+
+		p._kill = function (lookup) {
+			if (lookup.scrollTo_x) {
+				this.skipX = true;
+			}
+			if (lookup.scrollTo_y) {
+				this.skipY = true;
+			}
+			return this._super._kill.call(this, lookup);
+		};
+	});if (_gsScope._gsDefine) {
+		_gsScope._gsQueue.pop()();
+	}
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
+
+/***/ },
+/* 5 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Expand = function () {
+		function Expand(expand, index) {
+			_classCallCheck(this, Expand);
+
+			this.expand = expand;
+			this.isOpen = false;
+
+			this.bindUI();
+			this.bindEvents();
+		}
+
+		_createClass(Expand, [{
+			key: 'bindUI',
+			value: function bindUI() {
+
+				this.expandBtn = this.expand.querySelector('.js-expand-btn');
+				this.expandContent = this.expand.querySelector('.js-expand-content');
+			}
+		}, {
+			key: 'bindEvents',
+			value: function bindEvents() {
+
+				this.expandBtn.addEventListener('click', this.toggleExpand.bind(this));
+			}
+		}, {
+			key: 'toggleExpand',
+			value: function toggleExpand(e) {
+
+				e.preventDefault();
+
+				if (this.isOpen == false) {
+					var expandTimeline = new TimelineLite();
+
+					TweenMax.set(this.expandContent, {
+						height: 'auto'
+					});
+
+					expandTimeline.from(this.expandContent, 0.4, {
+						height: 0,
+						ease: Power1.easeOut
+					}).to(window, 0.4, {
+						scrollTo: { y: this.expand.offsetTop - 20 },
+						ease: Power1.easeOut
+					});
+
+					this.isOpen = true;
+				} else {
+					TweenMax.to(this.expandContent, 0.4, {
+						height: 0,
+						ease: Power1.easeOut
+					});
+					this.isOpen = false;
+				}
+			}
+		}]);
+
+		return Expand;
+	}();
+
+	exports.default = Expand;
+	module.exports = exports['default'];
+
+/***/ },
+/* 6 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var Projects = function () {
+		function Projects() {
+			_classCallCheck(this, Projects);
+
+			this.bindUI();
+			this.bindEvents();
+		}
+
+		_createClass(Projects, [{
+			key: 'bindUI',
+			value: function bindUI() {
+
+				this.projectsLinks = document.querySelectorAll('.js-projects-link');
+				this.projectsTags = document.querySelectorAll('.js-projects-tags');
+			}
+		}, {
+			key: 'bindEvents',
+			value: function bindEvents() {
+
+				for (var i = this.projectsLinks.length - 1; i >= 0; i--) {
+					this.projectsLinks[i].addEventListener('mouseenter', this.showDetails.bind(this));
+				}
+			}
+		}, {
+			key: 'showDetails',
+			value: function showDetails(e) {
+
+				var currentIndex = e.target.getAttribute('data-index');
+
+				for (var i = this.projectsTags.length - 1; i >= 0; i--) {
+					var el = this.projectsTags[i];
+					if (el.getAttribute('data-index') == currentIndex) {
+						console.log(el);
+						TweenMax.fromTo(el, 0.3, {
+							y: -20,
+							opacity: 0
+						}, {
+							y: 0,
+							opacity: 1,
+							display: 'block'
+						});
+					}
+				}
+			}
+		}]);
+
+		return Projects;
+	}();
+
+	exports.default = Projects;
+	module.exports = exports['default'];
+
+/***/ },
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(5);
+	var content = __webpack_require__(8);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(17)(content, {});
+	var update = __webpack_require__(20)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -1008,21 +1328,21 @@
 	}
 
 /***/ },
-/* 5 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(6)();
+	exports = module.exports = __webpack_require__(9)();
 	// imports
 
 
 	// module
-	exports.push([module.id, "html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {\n  background: transparent;\n  border: 0;\n  font-size: 100%;\n  font-weight: normal;\n  margin: 0;\n  outline: 0;\n  padding: 0;\n  vertical-align: baseline;\n}\nbody {\n  line-height: 1;\n}\nbutton {\n  font-family: inherit;\n  cursor: pointer;\n  margin: 0;\n  padding: 0;\n  border: none;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  outline: none;\n  background: none;\n}\narticle, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {\n  display: block;\n}\nnav ul {\n  list-style: none;\n}\nblockquote, q {\n  quotes: none;\n}\nblockquote:before, blockquote:after, q:before, q:after {\n  content: '';\n  content: none;\n}\na {\n  background: transparent;\n  font-size: 100%;\n  margin: 0;\n  padding: 0;\n  vertical-align: baseline;\n  color: inherit;\n  text-decoration: none;\n}\nins {\n  background-color: #ff9;\n  color: #000;\n  text-decoration: none;\n}\nmark {\n  background-color: #ff9;\n  color: #000;\n  font-style: italic;\n  font-weight: bold;\n}\ndel {\n  text-decoration: line-through;\n}\nabbr[title], dfn[title] {\n  border-bottom: 1px dotted;\n  cursor: help;\n}\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\nhr {\n  border: 0;\n  border-top: 1px solid #ccc;\n  display: block;\n  height: 1px;\n  margin: 1em 0;\n  padding: 0;\n}\ninput, select {\n  vertical-align: middle;\n}\n@font-face {\n  font-family: 'Moderat';\n  src: url(" + __webpack_require__(7) + ");\n  src: url(" + __webpack_require__(7) + "?#iefix) format('embedded-opentype'), url(" + __webpack_require__(8) + ") format('woff2'), url(" + __webpack_require__(9) + ") format('woff'), url(" + __webpack_require__(10) + ") format('truetype'), url(" + __webpack_require__(11) + "#moderatregular) format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Moderat Bold';\n  src: url(" + __webpack_require__(12) + ");\n  src: url(" + __webpack_require__(12) + "?#iefix) format('embedded-opentype'), url(" + __webpack_require__(13) + ") format('woff2'), url(" + __webpack_require__(14) + ") format('woff'), url(" + __webpack_require__(15) + ") format('truetype'), url(" + __webpack_require__(16) + "#moderatbold) format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\nhtml, body {\n  font-size: 10px;\n}\nbody {\n  font-family: 'Moderat', Helvetica, Arial, sans-serif;\n  background: #fff;\n  color: #666;\n}\n::-moz-selection {\n  background: #536dfe;\n  color: #fff;\n}\n::selection {\n  background: #536dfe;\n  color: #fff;\n}\n@media (max-width: 992px) {\n  .container {\n    padding: 3rem 2rem;\n  }\n}\n.loader {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 100;\n  height: 100vh;\n  width: 100vw;\n  background: #fff;\n}\n.about {\n  position: absolute;\n  z-index: 10;\n  top: 5rem;\n  left: 5rem;\n  width: 36rem;\n  font-size: 1.5rem;\n  line-height: 2em;\n}\n.about__name {\n  color: #536dfe;\n}\n.about__job {\n  color: #323232;\n}\n.about__intro a {\n  position: relative;\n  display: inline-block;\n}\n.about__intro a:before {\n  content: '';\n  display: block;\n  position: absolute;\n  z-index: 2;\n  bottom: 0.2rem;\n  left: 0;\n  width: 0;\n  height: 0.1rem;\n  -webkit-transition: width 0s ease, background 0.25s ease-out;\n  transition: width 0s ease, background 0.25s ease-out;\n}\n.about__intro a:after {\n  content: '';\n  position: absolute;\n  z-index: 3;\n  bottom: 0.2rem;\n  right: 0;\n  width: 0;\n  height: 0.1rem;\n  background: #536dfe;\n  overflow: hidden;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.about__intro a:hover:before {\n  width: 100%;\n  background: #536dfe;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.about__intro a:hover:after {\n  width: 100%;\n  background: transparent;\n  -webkit-transition: all 0s ease-out;\n  transition: all 0s ease-out;\n}\n.about__intro a span {\n  position: relative;\n  display: inline-block;\n}\n.about__intro a span:after {\n  content: '';\n  position: absolute;\n  z-index: 1;\n  bottom: 0.2rem;\n  right: 0;\n  width: 100%;\n  height: 0.1rem;\n  background: rgba(83,109,254,0.25);\n}\n.about__projects {\n  margin-top: 4rem;\n}\n.about__list {\n  list-style-type: none;\n}\n.about__list-item {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.about__list-item > a {\n  position: relative;\n  display: inline-block;\n}\n.about__list-item > a:before {\n  content: '';\n  display: block;\n  position: absolute;\n  z-index: 2;\n  bottom: 0.2rem;\n  left: 0;\n  width: 0;\n  height: 0.1rem;\n  -webkit-transition: width 0s ease, background 0.25s ease-out;\n  transition: width 0s ease, background 0.25s ease-out;\n}\n.about__list-item > a:after {\n  content: '';\n  position: absolute;\n  z-index: 3;\n  bottom: 0.2rem;\n  right: 0;\n  width: 0;\n  height: 0.1rem;\n  background: #536dfe;\n  overflow: hidden;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.about__list-item > a:hover:before {\n  width: 100%;\n  background: #536dfe;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.about__list-item > a:hover:after {\n  width: 100%;\n  background: transparent;\n  -webkit-transition: all 0s ease-out;\n  transition: all 0s ease-out;\n}\n.about__list-item--confidential {\n  cursor: default;\n}\n.about__list-item--confidential:after {\n  content: '(confidential)';\n  margin-left: 0.5rem;\n  font-size: 1.2rem;\n  font-style: italic;\n  color: rgba(102,102,102,0.75);\n  -webkit-transform: translateX(-1rem);\n          transform: translateX(-1rem);\n  opacity: 0;\n  -webkit-transition: opacity 0.25s ease-out, -webkit-transform 0.25s ease-out;\n  transition: opacity 0.25s ease-out, -webkit-transform 0.25s ease-out;\n  transition: transform 0.25s ease-out, opacity 0.25s ease-out;\n  transition: transform 0.25s ease-out, opacity 0.25s ease-out, -webkit-transform 0.25s ease-out;\n}\n.about__list-item--confidential:hover:after {\n  -webkit-transform: translateX(0);\n          transform: translateX(0);\n  opacity: 1;\n}\n.about__list-item:before {\n  content: '';\n  display: block;\n  width: 0.5rem;\n  height: 0.5rem;\n  margin-right: 1rem;\n  background: #536dfe;\n}\n@media (max-width: 992px) {\n  .about {\n    position: static;\n    width: 100%;\n  }\n  .about__projects {\n    margin-top: 3rem;\n  }\n}\n@media (max-width: 480px) {\n  .about__intro br {\n    display: none;\n  }\n}\n.social {\n  position: absolute;\n  z-index: 10;\n  bottom: 5rem;\n  left: 5rem;\n  font-size: 1.5rem;\n  line-height: 2em;\n}\n.social__list {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: row;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.social__list-item {\n  margin-right: 1.5rem;\n}\n.social__list-item:last-child {\n  margin-right: 0;\n}\n.social__list-item > a {\n  position: relative;\n  display: inline-block;\n}\n.social__list-item > a:before {\n  content: '';\n  display: block;\n  position: absolute;\n  z-index: 2;\n  bottom: 0.2rem;\n  left: 0;\n  width: 0;\n  height: 0.1rem;\n  -webkit-transition: width 0s ease, background 0.25s ease-out;\n  transition: width 0s ease, background 0.25s ease-out;\n}\n.social__list-item > a:after {\n  content: '';\n  position: absolute;\n  z-index: 3;\n  bottom: 0.2rem;\n  right: 0;\n  width: 0;\n  height: 0.1rem;\n  background: #536dfe;\n  overflow: hidden;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.social__list-item > a:hover:before {\n  width: 100%;\n  background: #536dfe;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.social__list-item > a:hover:after {\n  width: 100%;\n  background: transparent;\n  -webkit-transition: all 0s ease-out;\n  transition: all 0s ease-out;\n}\n@media (max-width: 992px) {\n  .social {\n    position: static;\n  }\n}\n.projects {\n  position: absolute;\n  top: 0;\n  left: 50vw;\n  width: 50vw;\n  height: 100vh;\n}\n.projects__titles {\n  position: absolute;\n  top: -2.5rem;\n  left: -18rem;\n  z-index: 3;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: column;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  height: 100vh;\n  color: #2e2e2e;\n}\n.projects__title {\n  position: relative;\n  margin-bottom: 1rem;\n  font-family: 'Moderat Bold', Helvetica, Arial, sans-serif;\n  font-size: 10rem;\n}\n.projects__title:first-child {\n  margin-left: 7rem;\n}\n.projects__title:last-child {\n  margin-bottom: 0;\n}\n.projects__title time {\n  display: inline-block;\n  margin-left: 1.5rem;\n  vertical-align: 5.7rem;\n  font-family: 'Moderat', Helvetica, Arial, sans-serif;\n  font-size: 2rem;\n}\n.projects__visuals {\n  position: relative;\n  z-index: 2;\n  width: 0;\n  height: 100vh;\n  background: #666;\n  overflow: hidden;\n}\n.projects__visual {\n  position: absolute;\n  z-index: 1;\n  width: 25vw;\n  height: 100vh;\n  background: url(\"http://lorempicsum.com/simpsons/500/1920/2\") center;\n  background-size: cover;\n}\n.projects__tags {\n  position: absolute;\n  top: 50vh;\n  left: calc(25vw + 6rem);\n  display: none;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: column;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  height: 50vh;\n  font-family: 'Moderat', Helvetica, Arial, sans-serif;\n  font-size: 1.5rem;\n  line-height: 2em;\n}\n.projects__tags-list {\n  list-style-type: none;\n}\n.projects__tags-list-item {\n  position: relative;\n}\n.projects__tags-list-item:first-child:before {\n  content: '';\n  position: absolute;\n  z-index: -1;\n  top: -0.4rem;\n  left: -1.2rem;\n  display: block;\n  height: 2rem;\n  width: 2rem;\n  background: #e7e7e7;\n}\n@media (max-width: 992px) {\n  .projects {\n    display: none;\n  }\n}\n.projects-mobile {\n  display: none;\n  width: 76.8rem;\n  max-width: 100%;\n  margin: 4rem 0;\n}\n.projects-mobile__project + .projects-mobile__project {\n  margin-top: 5rem;\n}\n.projects-mobile__thumbnail img {\n  display: block;\n  height: auto;\n  max-width: 100%;\n}\n.projects-mobile__header {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: row;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: justify;\n  -webkit-justify-content: space-between;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  -webkit-box-align: start;\n  -webkit-align-items: flex-start;\n      -ms-flex-align: start;\n          align-items: flex-start;\n  margin-top: 2rem;\n}\n.projects-mobile__title {\n  font-family: 'Moderat Bold', Helvetica, Arial, sans-serif;\n  font-size: 2.4rem;\n  color: #2e2e2e;\n}\n.projects-mobile__title time {\n  display: block;\n  margin-top: 0.6rem;\n  font-family: 'Moderat', Helvetica, Arial, sans-serif;\n  font-size: 1.2rem;\n}\n.projects-mobile__btn-more {\n  position: relative;\n  display: inline-block;\n  font-family: 'Moderat Bold', Helvetica, Arial, sans-serif;\n  text-transform: uppercase;\n  color: #536dfe;\n}\n.projects-mobile__btn-more:after {\n  content: '';\n  position: absolute;\n  z-index: 1;\n  bottom: -0.4rem;\n  left: 0;\n  width: 100%;\n  height: 0.1rem;\n  background: rgba(83,109,254,0.25);\n}\n.projects-mobile__btn-more:before {\n  content: '';\n  position: absolute;\n  z-index: 2;\n  bottom: -0.4rem;\n  left: 0;\n  width: 0;\n  height: 0.1rem;\n  background: #536dfe;\n  -webkit-transition: background, width 0.2s ease-out;\n  transition: background, width 0.2s ease-out;\n}\n.projects-mobile__btn-more:hover:before {\n  width: 100%;\n}\n.projects-mobile__infos {\n  margin-top: 3rem;\n  font-size: 1.5rem;\n}\n.projects-mobile__description {\n  margin-bottom: 2.5rem;\n  line-height: 2em;\n}\n.projects-mobile__tags-list {\n  margin-bottom: 3rem;\n  list-style-type: none;\n  line-height: 2em;\n}\n.projects-mobile__btn-cta {\n  display: block;\n  width: 17.5rem;\n  height: 5rem;\n  text-align: center;\n  line-height: 5rem;\n  font-size: 1.2rem;\n  text-transform: uppercase;\n  color: #fff;\n  background: #536dfe;\n}\n@media (max-width: 992px) {\n  .projects-mobile {\n    display: block;\n  }\n}\n", ""]);
+	exports.push([module.id, "html, body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, address, cite, code, del, dfn, em, img, ins, kbd, q, samp, small, strong, sub, sup, var, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary, time, mark, audio, video {\n  background: transparent;\n  border: 0;\n  font-size: 100%;\n  font-weight: normal;\n  margin: 0;\n  outline: 0;\n  padding: 0;\n  vertical-align: baseline;\n}\nbody {\n  line-height: 1;\n}\nbutton {\n  font-family: inherit;\n  cursor: pointer;\n  margin: 0;\n  padding: 0;\n  border: none;\n  -webkit-appearance: none;\n     -moz-appearance: none;\n          appearance: none;\n  outline: none;\n  background: none;\n}\narticle, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {\n  display: block;\n}\nnav ul {\n  list-style: none;\n}\nblockquote, q {\n  quotes: none;\n}\nblockquote:before, blockquote:after, q:before, q:after {\n  content: '';\n  content: none;\n}\na {\n  background: transparent;\n  font-size: 100%;\n  margin: 0;\n  padding: 0;\n  vertical-align: baseline;\n  color: inherit;\n  text-decoration: none;\n}\nins {\n  background-color: #ff9;\n  color: #000;\n  text-decoration: none;\n}\nmark {\n  background-color: #ff9;\n  color: #000;\n  font-style: italic;\n  font-weight: bold;\n}\ndel {\n  text-decoration: line-through;\n}\nabbr[title], dfn[title] {\n  border-bottom: 1px dotted;\n  cursor: help;\n}\ntable {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\nhr {\n  border: 0;\n  border-top: 1px solid #ccc;\n  display: block;\n  height: 1px;\n  margin: 1em 0;\n  padding: 0;\n}\ninput, select {\n  vertical-align: middle;\n}\n@font-face {\n  font-family: 'Moderat';\n  src: url(" + __webpack_require__(10) + ");\n  src: url(" + __webpack_require__(10) + "?#iefix) format('embedded-opentype'), url(" + __webpack_require__(11) + ") format('woff2'), url(" + __webpack_require__(12) + ") format('woff'), url(" + __webpack_require__(13) + ") format('truetype'), url(" + __webpack_require__(14) + "#moderatregular) format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n@font-face {\n  font-family: 'Moderat Bold';\n  src: url(" + __webpack_require__(15) + ");\n  src: url(" + __webpack_require__(15) + "?#iefix) format('embedded-opentype'), url(" + __webpack_require__(16) + ") format('woff2'), url(" + __webpack_require__(17) + ") format('woff'), url(" + __webpack_require__(18) + ") format('truetype'), url(" + __webpack_require__(19) + "#moderatbold) format('svg');\n  font-weight: normal;\n  font-style: normal;\n}\n* {\n  box-sizing: border-box;\n}\nhtml, body {\n  font-size: 10px;\n}\nbody {\n  font-family: 'Moderat', Helvetica, Arial, sans-serif;\n  background: #fff;\n  color: #666;\n}\n::-moz-selection {\n  background: #536dfe;\n  color: #fff;\n}\n::selection {\n  background: #536dfe;\n  color: #fff;\n}\n@media (max-width: 992px) {\n  .container {\n    padding: 3rem 0;\n  }\n}\n.loader {\n  position: absolute;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  z-index: 100;\n  background: #fff;\n}\n.about {\n  position: absolute;\n  z-index: 10;\n  top: 5rem;\n  left: 5rem;\n  width: 36rem;\n  font-size: 1.5rem;\n  line-height: 2em;\n}\n.about__name {\n  color: #536dfe;\n}\n.about__job {\n  color: #323232;\n}\n.about__intro a {\n  position: relative;\n  display: inline-block;\n}\n.about__intro a:before {\n  content: '';\n  display: block;\n  position: absolute;\n  z-index: 2;\n  bottom: 0.2rem;\n  left: 0;\n  width: 0;\n  height: 0.1rem;\n  -webkit-transition: width 0s ease, background 0.25s ease-out;\n  transition: width 0s ease, background 0.25s ease-out;\n}\n.about__intro a:after {\n  content: '';\n  position: absolute;\n  z-index: 3;\n  bottom: 0.2rem;\n  right: 0;\n  width: 0;\n  height: 0.1rem;\n  background: #536dfe;\n  overflow: hidden;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.about__intro a:hover:before {\n  width: 100%;\n  background: #536dfe;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.about__intro a:hover:after {\n  width: 100%;\n  background: transparent;\n  -webkit-transition: all 0s ease-out;\n  transition: all 0s ease-out;\n}\n.about__intro a span {\n  position: relative;\n  display: inline-block;\n}\n.about__intro a span:after {\n  content: '';\n  position: absolute;\n  z-index: 1;\n  bottom: 0.2rem;\n  right: 0;\n  width: 100%;\n  height: 0.1rem;\n  background: rgba(83,109,254,0.25);\n}\n.about__projects {\n  margin-top: 4rem;\n}\n.about__list {\n  list-style-type: none;\n}\n.about__list-item {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.about__list-item > a {\n  position: relative;\n  display: inline-block;\n}\n.about__list-item > a:before {\n  content: '';\n  display: block;\n  position: absolute;\n  z-index: 2;\n  bottom: 0.2rem;\n  left: 0;\n  width: 0;\n  height: 0.1rem;\n  -webkit-transition: width 0s ease, background 0.25s ease-out;\n  transition: width 0s ease, background 0.25s ease-out;\n}\n.about__list-item > a:after {\n  content: '';\n  position: absolute;\n  z-index: 3;\n  bottom: 0.2rem;\n  right: 0;\n  width: 0;\n  height: 0.1rem;\n  background: #536dfe;\n  overflow: hidden;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.about__list-item > a:hover:before {\n  width: 100%;\n  background: #536dfe;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.about__list-item > a:hover:after {\n  width: 100%;\n  background: transparent;\n  -webkit-transition: all 0s ease-out;\n  transition: all 0s ease-out;\n}\n.about__list-item > a span {\n  position: relative;\n  display: inline-block;\n}\n.about__list-item > a span:after {\n  content: '';\n  position: absolute;\n  z-index: 1;\n  bottom: 0.2rem;\n  right: 0;\n  width: 100%;\n  height: 0.1rem;\n  background: rgba(83,109,254,0.25);\n}\n.about__list-item--confidential {\n  cursor: default;\n}\n.about__list-item--confidential:after {\n  content: '(confidential)';\n  margin-left: 0.5rem;\n  font-size: 1.2rem;\n  font-style: italic;\n  color: rgba(102,102,102,0.75);\n  -webkit-transform: translateX(-1rem);\n          transform: translateX(-1rem);\n  opacity: 0;\n  -webkit-transition: opacity 0.25s ease-out, -webkit-transform 0.25s ease-out;\n  transition: opacity 0.25s ease-out, -webkit-transform 0.25s ease-out;\n  transition: transform 0.25s ease-out, opacity 0.25s ease-out;\n  transition: transform 0.25s ease-out, opacity 0.25s ease-out, -webkit-transform 0.25s ease-out;\n}\n.about__list-item--confidential:hover:after {\n  -webkit-transform: translateX(0);\n          transform: translateX(0);\n  opacity: 1;\n}\n.about__list-item:before {\n  content: '';\n  display: block;\n  width: 0.5rem;\n  height: 0.5rem;\n  margin-right: 1rem;\n  background: #536dfe;\n}\n@media (max-width: 992px) {\n  .about {\n    position: static;\n    width: 100%;\n    padding: 0 2rem;\n  }\n  .about__title {\n    margin-bottom: 0.5rem;\n    line-height: 1.5em;\n    text-transform: uppercase;\n  }\n  .about__name, .about__job {\n    display: block;\n  }\n  .about__projects {\n    margin-top: 3rem;\n  }\n}\n@media (max-width: 480px) {\n  .about__intro br {\n    display: none;\n  }\n}\n.social {\n  position: absolute;\n  z-index: 10;\n  bottom: 5rem;\n  left: 5rem;\n  font-size: 1.5rem;\n  line-height: 2em;\n}\n.social__list {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: row;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n}\n.social__list-item {\n  margin-right: 1.5rem;\n}\n.social__list-item:last-child {\n  margin-right: 0;\n}\n.social__list-item > a {\n  position: relative;\n  display: inline-block;\n}\n.social__list-item > a:before {\n  content: '';\n  display: block;\n  position: absolute;\n  z-index: 2;\n  bottom: 0.2rem;\n  left: 0;\n  width: 0;\n  height: 0.1rem;\n  -webkit-transition: width 0s ease, background 0.25s ease-out;\n  transition: width 0s ease, background 0.25s ease-out;\n}\n.social__list-item > a:after {\n  content: '';\n  position: absolute;\n  z-index: 3;\n  bottom: 0.2rem;\n  right: 0;\n  width: 0;\n  height: 0.1rem;\n  background: #536dfe;\n  overflow: hidden;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.social__list-item > a:hover:before {\n  width: 100%;\n  background: #536dfe;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.social__list-item > a:hover:after {\n  width: 100%;\n  background: transparent;\n  -webkit-transition: all 0s ease-out;\n  transition: all 0s ease-out;\n}\n@media (max-width: 992px) {\n  .social {\n    position: static;\n    padding: 0 2rem;\n  }\n}\n.projects {\n  position: absolute;\n  top: 0;\n  left: 50vw;\n  width: 50vw;\n  height: 100vh;\n}\n.projects__titles {\n  position: absolute;\n  top: -2.5rem;\n  left: -18rem;\n  z-index: 3;\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: column;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  height: 100vh;\n  color: #2e2e2e;\n}\n.projects__title {\n  position: relative;\n  margin-bottom: 1rem;\n  font-family: 'Moderat Bold', Helvetica, Arial, sans-serif;\n  font-size: 10rem;\n}\n.projects__title:first-child {\n  margin-left: 7rem;\n}\n.projects__title:last-child {\n  margin-bottom: 0;\n}\n.projects__title time {\n  display: inline-block;\n  margin-left: 1.5rem;\n  vertical-align: 5.7rem;\n  font-family: 'Moderat', Helvetica, Arial, sans-serif;\n  font-size: 2rem;\n}\n.projects__underline {\n  position: absolute;\n  top: 17rem;\n  left: 15rem;\n  display: block;\n  width: 17rem;\n  height: 2rem;\n  background: #536dfe;\n  pointer-events: none;\n  overflow: hidden;\n}\n.projects__visuals {\n  position: relative;\n  z-index: 2;\n  width: 25vw;\n  height: 100vh;\n  overflow: hidden;\n  will-change: width;\n}\n.projects__visual {\n  position: absolute;\n  z-index: 1;\n  width: 25vw;\n  height: 100vh;\n  background: url(\"http://lorempicsum.com/simpsons/500/1920/2\") center;\n  background-size: cover;\n  opacity: 0.25;\n}\n.projects__tags {\n  position: absolute;\n  top: 50vh;\n  left: calc(25vw + 6rem);\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: vertical;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: column;\n      -ms-flex-direction: column;\n          flex-direction: column;\n  -webkit-box-pack: center;\n  -webkit-justify-content: center;\n      -ms-flex-pack: center;\n          justify-content: center;\n  height: 50vh;\n  font-family: 'Moderat', Helvetica, Arial, sans-serif;\n  font-size: 1.5rem;\n  line-height: 2em;\n}\n.projects__tags-list {\n  display: none;\n  list-style-type: none;\n}\n.projects__tags-list-item {\n  position: relative;\n}\n.projects__tags-list-item:first-child:before {\n  content: '';\n  position: absolute;\n  z-index: -1;\n  top: -0.4rem;\n  left: -1.2rem;\n  display: block;\n  height: 2rem;\n  width: 2rem;\n  background: #e7e7e7;\n}\n@media (max-width: 992px) {\n  .projects {\n    display: none;\n  }\n}\n.projects-mobile {\n  display: none;\n  width: 76.8rem;\n  max-width: 100%;\n  margin: 4.5rem 0;\n  font-size: 1.5rem;\n  line-height: 2em;\n}\n.projects-mobile__project + .projects-mobile__project {\n  margin-top: 5rem;\n}\n.projects-mobile__thumbnail {\n  display: block;\n  padding: 0 2rem;\n}\n.projects-mobile__thumbnail img {\n  display: block;\n  height: auto;\n  max-width: 100%;\n}\n.projects-mobile__header {\n  display: -webkit-box;\n  display: -webkit-flex;\n  display: -ms-flexbox;\n  display: flex;\n  -webkit-box-orient: horizontal;\n  -webkit-box-direction: normal;\n  -webkit-flex-direction: row;\n      -ms-flex-direction: row;\n          flex-direction: row;\n  -webkit-box-pack: justify;\n  -webkit-justify-content: space-between;\n      -ms-flex-pack: justify;\n          justify-content: space-between;\n  -webkit-box-align: start;\n  -webkit-align-items: flex-start;\n      -ms-flex-align: start;\n          align-items: flex-start;\n  margin-top: 2rem;\n  padding: 0 2rem;\n}\n.projects-mobile__title {\n  font-family: 'Moderat Bold', Helvetica, Arial, sans-serif;\n  font-size: 2.9rem;\n  color: #2e2e2e;\n}\n.projects-mobile__title time {\n  display: block;\n  margin-top: 0.2rem;\n  font-size: 1.5rem;\n  font-family: 'Moderat', Helvetica, Arial, sans-serif;\n}\n.projects-mobile__btn-more {\n  position: relative;\n  display: inline-block;\n  padding: 0.2rem 0 0.5rem 0;\n  font-size: 1.1rem;\n  font-family: 'Moderat Bold', Helvetica, Arial, sans-serif;\n  text-transform: uppercase;\n  color: #536dfe;\n}\n.projects-mobile__btn-more:before {\n  content: '';\n  display: block;\n  position: absolute;\n  z-index: 2;\n  bottom: 0.2rem;\n  left: 0;\n  width: 0;\n  height: 0.1rem;\n  -webkit-transition: width 0s ease, background 0.25s ease-out;\n  transition: width 0s ease, background 0.25s ease-out;\n}\n.projects-mobile__btn-more:after {\n  content: '';\n  position: absolute;\n  z-index: 3;\n  bottom: 0.2rem;\n  right: 0;\n  width: 0;\n  height: 0.1rem;\n  background: #536dfe;\n  overflow: hidden;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.projects-mobile__btn-more:hover:before {\n  width: 100%;\n  background: #536dfe;\n  -webkit-transition: width 0.25s ease-out;\n  transition: width 0.25s ease-out;\n}\n.projects-mobile__btn-more:hover:after {\n  width: 100%;\n  background: transparent;\n  -webkit-transition: all 0s ease-out;\n  transition: all 0s ease-out;\n}\n.projects-mobile__btn-more:after, .projects-mobile__btn-more:before {\n  bottom: 0;\n}\n.projects-mobile__btn-more span {\n  position: relative;\n  display: inline-block;\n}\n.projects-mobile__btn-more span:after {\n  content: '';\n  position: absolute;\n  z-index: 1;\n  bottom: -0.5rem;\n  right: 0;\n  width: 100%;\n  height: 0.1rem;\n  background: rgba(83,109,254,0.25);\n}\n.projects-mobile__infos {\n  height: 0;\n  padding: 0 2rem;\n  overflow: hidden;\n}\n.projects-mobile__description {\n  margin: 3rem 0 2.5rem 0;\n}\n.projects-mobile__tags-list {\n  margin-bottom: 5rem;\n  list-style-type: none;\n}\n.projects-mobile__btn-cta {\n  display: block;\n  width: 17.5rem;\n  height: 5rem;\n  margin-bottom: 5rem;\n  text-align: center;\n  line-height: 5rem;\n  font-size: 1.2rem;\n  text-transform: uppercase;\n  color: #fff;\n  background: #536dfe;\n}\n@media (max-width: 992px) {\n  .projects-mobile {\n    display: block;\n  }\n}\n@media (max-width: 480px) {\n  .projects-mobile__thumbnail {\n    padding: 0;\n  }\n}\n", ""]);
 
 	// exports
 
 
 /***/ },
-/* 6 */
+/* 9 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1077,67 +1397,67 @@
 	};
 
 /***/ },
-/* 7 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "86591867d5547c3f6ff56c8b774dd40c.eot";
 
 /***/ },
-/* 8 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "19f79ff7375a0be6105e82b4e8c63ff8.woff2";
 
 /***/ },
-/* 9 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "5f091d05fd7338b1f07b557e536292d0.woff";
 
 /***/ },
-/* 10 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "df0b5decb149bf7f8f1463fe4a84c024.ttf";
 
 /***/ },
-/* 11 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "fbe6c99715227f406f4abd3b5a1938c0.svg";
 
 /***/ },
-/* 12 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "f780cc62da4b3e34ecbb228b512893f9.eot";
 
 /***/ },
-/* 13 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "2cb0b082aa64d665f55c964b064676db.woff2";
 
 /***/ },
-/* 14 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "a757a12b463c765b554731b47d19f515.woff";
 
 /***/ },
-/* 15 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "89eb9240f8cff3873105ee6bb4cac566.ttf";
 
 /***/ },
-/* 16 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "e9546d04bb77a7525901c1b816628ff3.svg";
 
 /***/ },
-/* 17 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
