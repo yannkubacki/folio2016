@@ -4,7 +4,6 @@ import Expand from './expand'
 import Projects from './projects'
 
 window.onload = () => {
-
 	if(window.innerWidth > 992){
 		let introTimeline = new TimelineLite();
 

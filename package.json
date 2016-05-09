@@ -10,7 +10,9 @@
   "author": "yann kubacki",
   "license": "ISC",
   "dependencies": {
-    "gsap": "^1.18.2"
+    "gsap": "^1.18.2",
+    "hoverintent": "^1.0.2",
+    "object-fit-polyfill": "^0.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.3.6",
