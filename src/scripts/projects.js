@@ -7,12 +7,14 @@ class Projects {
 		this.bindEvents();
 
 		this.timeline = new TimelineLite();
+		this.currentVisual = this.projectsVisuals[0];
 
 	}
 
 	bindUI() {
 
 		this.projectsLinks = document.querySelectorAll('.js-projects-link');
+		this.projectsVisuals = document.querySelectorAll('.js-projects-visual');
 		this.projectsTags = document.querySelectorAll('.js-projects-tags');
 
 	}
@@ -30,8 +32,6 @@ class Projects {
 
 		this.timeline.pause(0, true); 
 		this.timeline.clear()
-
-		console.log(this.timeline,'lol');
 
 		const currentIndex = e.target.getAttribute('data-index');
 
@@ -51,6 +51,20 @@ class Projects {
 			}
 		}
 
+		for (let i = this.projectsVisuals.length - 1; i >= 0; i--) {
+			let el = this.projectsVisuals[i];
+			if (el.getAttribute('data-index') == currentIndex) {
+				this.timeline.add(TweenMax.to(this.projectsVisuals, 0.35, {
+					opacity: 0
+				}),'-=0.35');
+				this.timeline.add(TweenMax.to(el, 0.35, {
+					opacity: 1,
+					scale: 1.05
+				}),'-=0.35');
+			}
+		}
+
+
 		for (let i = this.projectsLinks.length - 1; i >= 0; i--) {
 			let el = this.projectsLinks[i];
 			if (el.getAttribute('data-index') !== currentIndex) {
@@ -58,7 +72,7 @@ class Projects {
 				this.timeline.add(TweenMax.to(el, 0.35, {
 					opacity: 0.5,
 					ease: Quart.easeOut
-				}),'-=0.3');
+				}),'-=0.35');
 			}
 		}
 
