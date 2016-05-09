@@ -14,24 +14,35 @@ window.onload = () => {
 			ease: Power1.easeOut,
 			delay: 1
 		})
-		.from('.projects__visuals', 0.8, {
-			width: 0,
+		.from('.projects__visual', 1.2, {
+			x: -100,
+			scale: 1.5,
 			ease: Quart.easeOut
 		})
-		.staggerFrom('.projects__title', 0.3, {
-			x: -30, 
-			opacity: 0,
-			ease: Power1.easeOut 
-		}, 0.15, '-=0.3')
-		.staggerFrom('.projects__title time', 0.3, {
-			y: 25, 
-			opacity: 0,
-			ease: Power1.easeOut
-		}, 0.15, '-=0.15')
-		.from('.projects__underline', 0.4, {
+		.from('.projects__visuals', 1.2, {
 			width: 0,
 			ease: Quart.easeOut
-		});
+		},'-=1')
+		.staggerFrom('.projects__title', 0.8, {
+			x: -50, 
+			opacity: 0,
+			ease: Quart.easeOut 
+		}, 0.1, '-=1')
+		.staggerFrom('.projects__title time', 0.8, {
+			x: -50, 
+			opacity: 0,
+			ease: Quart.easeOut
+		}, 0.1, '-=1.1')
+		.from('.projects__underline--first', 0.8, {
+			x: -50,
+			width: 0,
+			ease: Quart.easeOut
+		},'-=0.8')
+		.from('.projects__underline--second', 0.6, {
+			x: -10,
+			width: 0,
+			ease: Quart.easeOut
+		},'-=0.5');
 	} else {
 		TweenMax.to('.loader', 0,  {
 			opacity: 0,

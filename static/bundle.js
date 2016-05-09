@@ -1283,7 +1283,7 @@
 					if (el.getAttribute('data-index') == currentIndex) {
 						console.log(el);
 						TweenMax.fromTo(el, 0.3, {
-							y: -20,
+							y: 20,
 							opacity: 0
 						}, {
 							y: 0,

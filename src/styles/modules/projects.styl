@@ -7,8 +7,8 @@
 	
 	&__titles
 		position absolute
-		top -2.5rem
-		left -18rem
+		top -4.5rem
+		left -27.5rem
 		z-index 3
 		display flex
 		flex-direction column
@@ -18,15 +18,11 @@
 		
 	&__title
 		position relative
-		margin-bottom 1rem
 		font-family $Moderat-Bold
-		font-size 10rem
+		font-size 14.5rem
 		
 		&:first-child
-			margin-left 7rem
-		
-		&:last-child
-			margin-bottom 0	
+			margin-left 9.8rem
 			
 		time 
 			display inline-block
@@ -35,16 +31,28 @@
 			font-family $Moderat
 			font-size 2rem
 			
+	&__underlines
+		position absolute
+		display block
+		top 24rem
+		left 22rem
+		
 	&__underline
 		position absolute
-		top 17rem
-		left 15rem
+		top 0 
+		left 0
 		display block
-		width 17rem
+		width 25.5rem
 		height 2rem
 		background $indigo
 		pointer-events none
 		overflow hidden
+		
+		&--first
+			background $grey
+			
+		&--second
+			background $indigo
 	
 	&__visuals
 		position relative
@@ -59,7 +67,7 @@
 		z-index 1
 		width 25vw
 		height 100vh
-		background url('http://lorempicsum.com/simpsons/500/1920/2') center
+		background url('https://scontent-mad1-1.xx.fbcdn.net/v/t1.0-9/10457780_10208453134435700_329554564766679855_n.jpg?oh=2da0f225efc77092987af8eac0198e92&oe=57E09895') center
 		background-size cover
 		opacity 0.25
 		
@@ -94,6 +102,23 @@
 				height 2rem
 				width 2rem
 				background $grey-light
+				
+	@media (max-width: $desktop-large)
+		&__titles
+			top -2.5rem
+			left -19.2rem
+			
+		&__title
+			font-size 10rem
+			
+			&:first-child
+				margin-left 6.8rem
+			
+		&__underline
+			top 17rem
+			left 16.2rem
+			width 17rem
+
 		
 	@media (max-width: $desktop)
 		display none
