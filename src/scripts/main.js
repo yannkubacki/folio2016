@@ -1,27 +1,31 @@
 import 'gsap'
 import 'ScrollToPlugin'
+import 'ObjectFitPolyfill'
 import Expand from './expand'
 import Projects from './projects'
 
 window.onload = () => {
+
 	if(window.innerWidth > 992){
 		let introTimeline = new TimelineLite();
 
-		introTimeline.to('.loader', 0.3, {
+		introTimeline.to('.loader', 0.7, {
 			opacity: 0,
 			display: 'none',
 			ease: Power1.easeOut,
 			delay: 1
 		})
-		.from('.projects__visual', 1.2, {
-			x: -100,
-			scale: 1.5,
+		.from('.projects__visual--video', 1, {
+			x: -500,
+			scale: 2,
 			ease: Quart.easeOut
-		})
-		.from('.projects__visuals', 1.2, {
+		},'-=0.7')
+		.fromTo('.projects__visuals', 1.2, {
 			width: 0,
 			ease: Quart.easeOut
-		},'-=1')
+		},{
+			width: '25vw'
+		},'-=0.8')
 		.staggerFrom('.projects__title', 0.8, {
 			x: -50, 
 			opacity: 0,
@@ -37,11 +41,11 @@ window.onload = () => {
 			width: 0,
 			ease: Quart.easeOut
 		},'-=0.8')
-		.from('.projects__underline--second', 0.6, {
+		.from('.projects__underline--second', 0.8, {
 			x: -10,
 			width: 0,
 			ease: Quart.easeOut
-		},'-=0.5');
+		},'-=0.6');
 	} else {
 		TweenMax.to('.loader', 0,  {
 			opacity: 0,

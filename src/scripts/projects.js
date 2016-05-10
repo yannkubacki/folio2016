@@ -16,6 +16,9 @@ class Projects {
 		this.projectsLinks = document.querySelectorAll('.js-projects-link');
 		this.projectsVisuals = document.querySelectorAll('.js-projects-visual');
 		this.projectsTags = document.querySelectorAll('.js-projects-tags');
+		this.projectsDescriptions = document.querySelectorAll('.js-projects-description');
+
+		console.log(this.projectsDescriptions)
 
 	}
 
@@ -35,18 +38,34 @@ class Projects {
 
 		const currentIndex = e.target.getAttribute('data-index');
 
-		for (let i = this.projectsTags.length - 1; i >= 0; i--) {
-			let el = this.projectsTags[i];
+		// for (let i = this.projectsTags.length - 1; i >= 0; i--) {
+		// 	let el = this.projectsTags[i];
+		// 	if (el.getAttribute('data-index') == currentIndex) {
+		// 		console.log(el);
+		// 		this.timeline.add(TweenMax.fromTo(el, 0.35, {
+		// 			x: -30,
+		// 			opacity: 0
+		// 		},{
+		// 			x: 0,
+		// 			opacity: 1,
+		// 			display: 'block',
+		// 			ease: Quart.easeOut
+		// 		}));
+		// 	}
+		// }
+
+		for (let i = this.projectsDescriptions.length - 1; i >= 0; i--) {
+			let el = this.projectsDescriptions[i];
 			if (el.getAttribute('data-index') == currentIndex) {
-				console.log(el);
-				this.timeline.add(TweenMax.fromTo(el, 0.35, {
-					x: -30,
+				console.log(el,'text');
+				this.timeline.add(TweenMax.fromTo(el, 0.25, {
+					x: -10,
 					opacity: 0
 				},{
 					x: 0,
 					opacity: 1,
 					display: 'block',
-					ease: Quart.easeOut
+					ease: Power1.easeOut
 				}));
 			}
 		}
@@ -54,25 +73,25 @@ class Projects {
 		for (let i = this.projectsVisuals.length - 1; i >= 0; i--) {
 			let el = this.projectsVisuals[i];
 			if (el.getAttribute('data-index') == currentIndex) {
-				this.timeline.add(TweenMax.to(this.projectsVisuals, 0.35, {
+				this.timeline.add(TweenMax.to(this.projectsVisuals, 0.5, {
 					opacity: 0
 				}),'-=0.35');
-				this.timeline.add(TweenMax.to(el, 0.35, {
+				this.timeline.add(TweenMax.to(el, 0.6, {
 					opacity: 1,
-					scale: 1.05
-				}),'-=0.35');
+					scale: 0.98,
+					ease: Quart.easeOut
+				}),'-=0.25');
 			}
 		}
-
 
 		for (let i = this.projectsLinks.length - 1; i >= 0; i--) {
 			let el = this.projectsLinks[i];
 			if (el.getAttribute('data-index') !== currentIndex) {
 				console.log(el);
 				this.timeline.add(TweenMax.to(el, 0.35, {
-					opacity: 0.5,
-					ease: Quart.easeOut
-				}),'-=0.35');
+					opacity: 0.25,
+					ease: Power1.easeOut
+				}),'-=0.75');
 			}
 		}
 

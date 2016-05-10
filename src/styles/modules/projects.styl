@@ -4,6 +4,7 @@
 	left 50vw
 	width 50vw
 	height 100vh
+	font-family $Moderat
 	
 	&__titles
 		position absolute
@@ -49,7 +50,7 @@
 		overflow hidden
 		
 		&--first
-			background $grey
+			background $indigo-light
 			
 		&--second
 			background $indigo
@@ -68,7 +69,6 @@
 		z-index 1
 		width 25vw
 		height 100vh
-		//background url('https://scontent-mad1-1.xx.fbcdn.net/v/t1.0-9/10457780_10208453134435700_329554564766679855_n.jpg?oh=2da0f225efc77092987af8eac0198e92&oe=57E09895') center
 		 
 		&--video
 			z-index 2
@@ -85,8 +85,9 @@
 				right 0
 				bottom 0
 				left 0
+				width 25vw
 				background $white
-				opacity 0.3
+				opacity 0.4
 				
 		&--first
 			background url('https://scontent-mad1-1.xx.fbcdn.net/v/t1.0-9/10457780_10208453134435700_329554564766679855_n.jpg?oh=2da0f225efc77092987af8eac0198e92&oe=57E09895') center no-repeat
@@ -96,21 +97,32 @@
 			background url('https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/13007178_10209482466768365_4627002473293561965_n.jpg?oh=590b61c2a83ef0a0c3ef47d05837f0ed&oe=57AF9FB5') center no-repeat
 			background-size cover
 			
+	&__descriptions
+		position absolute 
+		top 6rem
+		width calc(20vw)
+		left calc(25vw + 6rem)
+		font-family $Moderat
+		font-size 1.5rem
+		line-height 2em
+			
+	&__description
+		position absolute
+		display none
+		width 80%
+		list-style-type none
+			
 	&__tags
+		display none
 		position absolute 
 		top 50vh
 		left calc(25vw + 6rem)
-		display flex
-		flex-direction column
-		justify-content center
-		height 50vh
 		font-family $Moderat
 		font-size 1.5rem
 		line-height 2em
 		
 	&__tags-list
 		position absolute
-		display none
 		list-style-type none
 		
 	&__tags-list-item
