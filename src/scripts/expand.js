@@ -12,6 +12,7 @@ class Expand {
 	bindUI() {
 
 		this.expandBtn = this.expand.querySelector('.js-expand-btn');
+		this.expandBtnSpan = this.expand.querySelector('.js-expand-btn span');
 		this.expandContent = this.expand.querySelector('.js-expand-content');
 
 	}
@@ -27,6 +28,7 @@ class Expand {
 		e.preventDefault();
 
 		if (this.isOpen == false) {
+			this.expandBtnSpan.textContent = 'Less details'
 			let expandTimeline = new TimelineLite();
 
 			TweenMax.set(this.expandContent, {
@@ -44,6 +46,7 @@ class Expand {
 
         	this.isOpen = true;
         } else {
+        	this.expandBtnSpan.textContent = 'More details'
         	TweenMax.to(this.expandContent, 0.4, {
         		height: 0,
         		ease: Power1.easeOut

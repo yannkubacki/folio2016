@@ -52,12 +52,14 @@ class Projects {
 			let el = this.projectsVisuals[i];
 			if (el.getAttribute('data-index') == currentIndex) {
 				this.timeline.add(TweenMax.to(this.projectsVisuals, 0.5, {
-					opacity: 0
+					opacity: 0,
+					visibility: 'hidden'
 				}),'-=0.35');
 				this.timeline.add(TweenMax.fromTo(el, 0.5,{
 					scale: 1.05
 				}, {
 					opacity: 1,
+					visibility: 'visible',
 					scale: 1,
 					ease: Quart.easeOut
 				}),'-=0.5');

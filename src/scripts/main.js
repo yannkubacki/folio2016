@@ -6,23 +6,24 @@ import Projects from './projects'
 
 window.onload = () => {
 
-	let video = document.querySelector('video');
-	let hasLoadedOnce = false
+	// let video = document.querySelector('video');
+	// let hasLoadedOnce = false
 
 	if(window.innerWidth > 992){
 
-		video.oncanplay = () => {
-
-			if(!hasLoadedOnce){
+		// video.oncanplay = () => {
+		// 	console.log('loaded')
+		// 	if(!hasLoadedOnce){
 			
 				let introTimeline = new TimelineLite();
 
 				introTimeline.to('.loader', 0.7, {
 					opacity: 0,
 					display: 'none',
-					ease: Power1.easeOut
+					ease: Power1.easeOut,
+					delay: 0.5
 				})
-				.from('.projects__visual-container--video', 1, {
+				.from('.projects__visual--video', 1, {
 					x: -500,
 					scale: 2,
 					ease: Quart.easeOut
@@ -53,19 +54,15 @@ window.onload = () => {
 					width: 0,
 					ease: Quart.easeOut
 				},'-=0.6');
-				hasLoadedOnce = true
-			} 
-		}
+				// hasLoadedOnce = true
+		// 	} 
+		// }
 	} else {
 		TweenMax.to('.loader', 0,  {
 			opacity: 0,
 			display: 'none',
 		});
 	}
-
-	document.addEventListener('touchstart', function(event) {
-	 video.play();
-	}, false);
 
 	//Expands init
 	let expands = []
