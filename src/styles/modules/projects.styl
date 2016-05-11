@@ -61,8 +61,8 @@
 		width 25vw
 		height 100vh
 		overflow hidden
-		//will-change width
-	
+		will-change width
+
 		
 	&__visual
 		position absolute
@@ -77,24 +77,25 @@
 				width 100%
 				height 100vh
 				object-fit cover
-				
+
 			&:after
 				content ''
 				position absolute 
 				top 0
-				right 0
+				right -0.1rem
 				bottom 0
 				left 0
-				width 25vw
 				background $white
 				opacity 0.4
 				
+		
+				
 		&--first
-			background url('https://scontent-mad1-1.xx.fbcdn.net/v/t1.0-9/10457780_10208453134435700_329554564766679855_n.jpg?oh=2da0f225efc77092987af8eac0198e92&oe=57E09895') center no-repeat
+			background url('../../static/assets/images/maliki-desktop.jpg') center no-repeat
 			background-size cover
 
 		&--second
-			background url('https://scontent-cdg2-1.xx.fbcdn.net/v/t1.0-9/13007178_10209482466768365_4627002473293561965_n.jpg?oh=590b61c2a83ef0a0c3ef47d05837f0ed&oe=57AF9FB5') center no-repeat
+			background url('../../static/assets/images/VFA-desktop.jpg') center no-repeat
 			background-size cover
 			
 	&__descriptions
@@ -111,36 +112,24 @@
 		display none
 		width 80%
 		list-style-type none
-			
-	&__tags
-		display none
-		position absolute 
-		top 50vh
-		left calc(25vw + 6rem)
-		font-family $Moderat
-		font-size 1.5rem
-		line-height 2em
+		
+		&:before
+			content ''
+			position absolute 
+			z-index -1
+			top -0.4rem
+			left -1.2rem
+			display block
+			height 2rem
+			width 2rem
+			background $grey-light
 		
 	&__tags-list
-		position absolute
+		margin-top 4rem
 		list-style-type none
 		
 	&__tags-list-item
-		position relative
-		white-space nowrap
-		
-		&:first-of-type
-			
-			&:before
-				content ''
-				position absolute 
-				z-index -1
-				top -0.4rem
-				left -1.2rem
-				display block
-				height 2rem
-				width 2rem
-				background $grey-light
+		white-space nowrap	
 				
 	@media (max-width: $desktop-large)
 		&__titles
@@ -155,6 +144,9 @@
 			
 			&:first-child
 				margin-left 6.8rem
+				
+		&__descriptions
+			left calc(25vw + 3rem)
 			
 		&__underlines
 			top 17rem

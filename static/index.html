@@ -4,6 +4,27 @@
     <meta charset="utf-8">
     <title>Yann Kubacki - Interactive developer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="apple-touch-icon" sizes="57x57" href="assets/favicons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="assets/favicons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/favicons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="assets/favicons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="assets/favicons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="assets/favicons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/favicons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/favicons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/favicons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="assets/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="assets/favicons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="assets/favicons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="assets/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="assets/favicons/manifest.json">
+    <link rel="mask-icon" href="assets/favicons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="assets/favicons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="assets/favicons/mstile-144x144.png">
+    <meta name="msapplication-config" content="assets/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <script src="bundle.js"></script>
 </head>
 <body>
     <main class="container">
@@ -16,17 +37,17 @@
                 <p class="about__projects-title">Projects I've worked on at Octave&nbsp;&amp;&nbsp;Octave&nbsp;:</p>
  				<ul class="about__list">
  					<li class="about__list-item"><a href="https://www.lvmh.fr/" target="_blank"><span>LVMH</span></a></li>
+                    <li class="about__list-item"><a href="http://www.mutualite.fr/" target="_blank"><span>La mutualité française</span></a></li>
+                    <li class="about__list-item about__list-item--confidential">Orange</li>
  					<li class="about__list-item"><a href="http://www.smcp.com/" target="_blank"><span>SMCP</span></a></li>
- 					<li class="about__list-item about__list-item--confidential">Orange</li>
- 					<li class="about__list-item"><a href="http://www.mutualite.fr/" target="_blank"><span>La mutualité française</span></a></li>
  					<li class="about__list-item"><a href="https://www.airliquide.com/" target="_blank"><span>Air Liquide</span></a></li>
  				</ul>
  			</div>
  		</section>
         <section class="projects">
             <div class="projects__titles">
-                <h2 class="projects__title"><a href="http://maliki.com/" target="_blank" data-index="1" class="js-projects-link">Maliki<time datetime="2015-10">09.2015</time></a></h2>
-                <h2 class="projects__title"><a href="https://github.com/arnaudrocca/VFA17" data-index="2" target="_blank" class="js-projects-link">VFA17<time datetime="2016-06">06.2016</time></a>
+                <h2 class="projects__title"><a href="http://maliki.com/" target="_blank" data-index="1" class="js-projects-link">Maliki<time datetime="2015-09-01">09.2015</time></a></h2>
+                <h2 class="projects__title"><a href="https://github.com/arnaudrocca/VFA17" data-index="2" target="_blank" class="js-projects-link">VFA17<time datetime="2016-06-01">06.2016</time></a>
                 <span class="projects__underlines">
                     <span class="projects__underline projects__underline--first"></span>
                     <span class="projects__underline projects__underline--second"></span>
@@ -35,8 +56,8 @@
                 
             </div>
             <div class="projects__visuals">
-                <div class="js-projects-visual projects__visual projects__visual--video">
-                    <video autoplay muted loop src="assets/video.mp4" data-object-fit="cover"></video>
+                <div class="js-projects-visual js-projects-video projects__visual projects__visual--video">
+                    <video autoplay muted loop src="assets/videos/home.mp4" data-object-fit="cover"></video>
                 </div>
                 <div class="js-projects-visual projects__visual projects__visual--first" data-index="1"></div>
                 <div class="js-projects-visual projects__visual projects__visual--second" data-index="2"></div>
@@ -44,34 +65,32 @@
             <div class="projects__descriptions">
                 <div class="projects__description js-projects-description" data-index="1">
                     <p>
-                        Maliki ipsum dolor sit amet, consectetur adipisicing elit. Cumque ad quia officiis aperiam blanditiis sint dolore officia ea repudiandae ullam voluptas eum, quisquam iste? Praesentium ullam laborum, rem eaque ex.
+                       Complete recast of the webcomic Maliki.com.  
                     </p>
+                    <ul class="projects__tags-list js-projects-tags" data-index="1">
+                        <li class="projects__tags-list-item">#Conception</li>
+                        <li class="projects__tags-list-item">#UX</li>
+                        <li class="projects__tags-list-item">#Front-end dev</li>
+                        <li class="projects__tags-list-item">#Wordpress dev</li>
+                    </ul>
                 </div>
                 <div class="projects__description js-projects-description" data-index="2">
                     <p>
-                        VFA ipsum dolor sit amet, consectetur adipisicing elit. Cumque ad quia officiis aperiam blanditiis sint dolore officia ea repudiandae ullam voluptas eum, quisquam iste? Praesentium ullam laborum, rem eaque ex.
+                        Final project for my first year at Gobelins. Interactive experience around the theme of the butterfly effect. Work in progress.
                     </p>
+                    <ul class="projects__tags-list js-projects-tags" data-index="2">
+                        <li class="projects__tags-list-item">#Conception</li>
+                        <li class="projects__tags-list-item">#UX</li>
+                        <li class="projects__tags-list-item">#Front-end dev</li>
+                        <li class="projects__tags-list-item">#Creative dev</li>
+                    </ul>
                 </div>
-            </div>
-            <div class="projects__tags">
-                <ul class="projects__tags-list js-projects-tags" data-index="1">
-                    <li class="projects__tags-list-item">#Conception</li>
-                    <li class="projects__tags-list-item">#UX</li>
-                    <li class="projects__tags-list-item">#Front-end dev</li>
-                    <li class="projects__tags-list-item">#Wordpress dev</li>
-                </ul>
-                <ul class="projects__tags-list js-projects-tags" data-index="2">
-                    <li class="projects__tags-list-item">#Conception</li>
-                    <li class="projects__tags-list-item">#UX</li>
-                    <li class="projects__tags-list-item">#Front-end dev</li>
-                    <li class="projects__tags-list-item">#Creative dev</li>
-                </ul>
             </div>
         </section>
         <section class="projects-mobile">
             <div class="projects-mobile__project js-expand">
                 <a href="http://maliki.com/" class="projects-mobile__thumbnail" target="_blank">
-                    <img src="http://lorempicsum.com/simpsons/760/480/2" alt="Maliki">
+                    <img src="assets/images/maliki-mobile.jpg" alt="Maliki">
                 </a>
                 <div class="projects-mobile__header">
                      <h2 class="projects-mobile__title">
@@ -84,7 +103,7 @@
                 </div>
                <div class="projects-mobile__infos js-expand-content">
                    <p class="projects-mobile__description">
-                       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque ad quia officiis aperiam blanditiis sint dolore officia ea repudiandae ullam voluptas eum, quisquam iste? Praesentium ullam laborum, rem eaque ex.
+                       Complete recast of the webcomic Maliki.com. 
                    </p>
                    <ul class="projects-mobile__tags-list">
                         <li class="projects-mobile__tags-list-item">#Conception</li>
@@ -92,12 +111,12 @@
                         <li class="projects-mobile__tags-list-item">#Front-end dev</li>
                         <li class="projects-mobile__tags-list-item">#Wordpress dev</li>
                     </ul>
-                    <a href="http://maliki.com/" target="_blank" class="projects-mobile__btn-cta">Visite website</a>
+                    <a href="http://maliki.com/" target="_blank" class="projects-mobile__btn-cta">Visit website</a>
                </div>
             </div>
             <div class="projects-mobile__project js-expand">
                 <a href="https://github.com/arnaudrocca/VFA17" class="projects-mobile__thumbnail" target="_blank">
-                    <img src="http://lorempicsum.com/simpsons/760/480/2" alt="Maliki">
+                    <img src="assets/images/VFA-mobile.jpg" alt="VFA">
                 </a>
                 <div class="projects-mobile__header">
                      <h2 class="projects-mobile__title">
@@ -110,7 +129,7 @@
                 </div>
                <div class="projects-mobile__infos js-expand-content">
                    <p class="projects-mobile__description">
-                       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque ad quia officiis aperiam blanditiis sint dolore officia ea repudiandae ullam voluptas eum, quisquam iste? Praesentium ullam laborum, rem eaque ex.
+                       Final project for my first year at Gobelins. Interactive experience around the theme of the butterfly effect. Work in progress.
                    </p>
                    <ul class="projects-mobile__tags-list">
                         <li class="projects-mobile__tags-list-item">#Conception</li>
@@ -125,13 +144,13 @@
     	<nav class="social">
     		<ul class="social__list">
     			<li class="social__list-item"><a href="mailto:kubackiyann@gmail.com">Contact</a></li>
-    			<li class="social__list-item"><a href="https://twitter.com/?lang=fr" target="_blank">Twitter</a></li>
+    			<li class="social__list-item"><a href="https://twitter.com/MrYannoch" target="_blank">Twitter</a></li>
     			<li class="social__list-item"><a href="https://github.com/yannkubacki" target="_blank">Github</a></li>
     			<li class="social__list-item"><a href="https://www.linkedin.com/in/yann-kubacki-7743b5bb?trk=hp-identity-name" target="_blank">Linkedin</a></li>
     		</ul>
     	</nav>
     </main>
-    <div class="loader"></div>
-    <script src="bundle.js"></script>
+    <div class="loader">
+    </div>
 </body>
 </html>

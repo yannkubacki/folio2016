@@ -1,5 +1,3 @@
-//import test from 'hoverintent'
-
 class Projects {
 	constructor(){
 
@@ -14,11 +12,9 @@ class Projects {
 	bindUI() {
 
 		this.projectsLinks = document.querySelectorAll('.js-projects-link');
+		this.projectsVideo= document.querySelector('.js-projects-video');
 		this.projectsVisuals = document.querySelectorAll('.js-projects-visual');
-		this.projectsTags = document.querySelectorAll('.js-projects-tags');
 		this.projectsDescriptions = document.querySelectorAll('.js-projects-description');
-
-		console.log(this.projectsDescriptions)
 
 	}
 
@@ -26,7 +22,6 @@ class Projects {
 		for (let i = this.projectsLinks.length - 1; i >= 0; i--) {
 			this.projectsLinks[i].addEventListener('mouseenter', this.showDetails.bind(this));
 			this.projectsLinks[i].addEventListener('mouseleave', this.hideDetails.bind(this));
-			//hoverintent(this.projectsLinks[i],this.showDetails.bind(this),this.hideDetails.bind(this));
 		}
 
 	}
@@ -38,26 +33,9 @@ class Projects {
 
 		const currentIndex = e.target.getAttribute('data-index');
 
-		// for (let i = this.projectsTags.length - 1; i >= 0; i--) {
-		// 	let el = this.projectsTags[i];
-		// 	if (el.getAttribute('data-index') == currentIndex) {
-		// 		console.log(el);
-		// 		this.timeline.add(TweenMax.fromTo(el, 0.35, {
-		// 			x: -30,
-		// 			opacity: 0
-		// 		},{
-		// 			x: 0,
-		// 			opacity: 1,
-		// 			display: 'block',
-		// 			ease: Quart.easeOut
-		// 		}));
-		// 	}
-		// }
-
 		for (let i = this.projectsDescriptions.length - 1; i >= 0; i--) {
 			let el = this.projectsDescriptions[i];
 			if (el.getAttribute('data-index') == currentIndex) {
-				console.log(el,'text');
 				this.timeline.add(TweenMax.fromTo(el, 0.25, {
 					x: -10,
 					opacity: 0
@@ -76,22 +54,23 @@ class Projects {
 				this.timeline.add(TweenMax.to(this.projectsVisuals, 0.5, {
 					opacity: 0
 				}),'-=0.35');
-				this.timeline.add(TweenMax.to(el, 0.6, {
+				this.timeline.add(TweenMax.fromTo(el, 0.5,{
+					scale: 1.05
+				}, {
 					opacity: 1,
-					scale: 0.98,
+					scale: 1,
 					ease: Quart.easeOut
-				}),'-=0.25');
+				}),'-=0.5');
 			}
 		}
 
 		for (let i = this.projectsLinks.length - 1; i >= 0; i--) {
 			let el = this.projectsLinks[i];
 			if (el.getAttribute('data-index') !== currentIndex) {
-				console.log(el);
 				this.timeline.add(TweenMax.to(el, 0.35, {
 					opacity: 0.25,
 					ease: Power1.easeOut
-				}),'-=0.75');
+				}),'-=0.5');
 			}
 		}
 

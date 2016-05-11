@@ -6,53 +6,66 @@ import Projects from './projects'
 
 window.onload = () => {
 
-	if(window.innerWidth > 992){
-		let introTimeline = new TimelineLite();
+	let video = document.querySelector('video');
+	let hasLoadedOnce = false
 
-		introTimeline.to('.loader', 0.7, {
-			opacity: 0,
-			display: 'none',
-			ease: Power1.easeOut,
-			delay: 1
-		})
-		.from('.projects__visual--video', 1, {
-			x: -500,
-			scale: 2,
-			ease: Quart.easeOut
-		},'-=0.7')
-		.fromTo('.projects__visuals', 1.2, {
-			width: 0,
-			ease: Quart.easeOut
-		},{
-			width: '25vw'
-		},'-=0.8')
-		.staggerFrom('.projects__title', 0.8, {
-			x: -50, 
-			opacity: 0,
-			ease: Quart.easeOut 
-		}, 0.1, '-=1')
-		.staggerFrom('.projects__title time', 0.8, {
-			x: -50, 
-			opacity: 0,
-			ease: Quart.easeOut
-		}, 0.1, '-=1.1')
-		.from('.projects__underline--first', 0.8, {
-			x: -50,
-			width: 0,
-			ease: Quart.easeOut
-		},'-=0.8')
-		.from('.projects__underline--second', 0.8, {
-			x: -10,
-			width: 0,
-			ease: Quart.easeOut
-		},'-=0.6');
+	if(window.innerWidth > 992){
+
+		video.oncanplay = () => {
+
+			if(!hasLoadedOnce){
+			
+				let introTimeline = new TimelineLite();
+
+				introTimeline.to('.loader', 0.7, {
+					opacity: 0,
+					display: 'none',
+					ease: Power1.easeOut
+				})
+				.from('.projects__visual-container--video', 1, {
+					x: -500,
+					scale: 2,
+					ease: Quart.easeOut
+				},'-=0.7')
+				.fromTo('.projects__visuals', 1.2, {
+					width: 0,
+					ease: Quart.easeOut
+				},{
+					width: '25vw'
+				},'-=0.8')
+				.staggerFrom('.projects__title', 0.8, {
+					x: -50, 
+					opacity: 0,
+					ease: Quart.easeOut 
+				}, 0.1, '-=1')
+				.staggerFrom('.projects__title time', 0.8, {
+					x: -50, 
+					opacity: 0,
+					ease: Quart.easeOut
+				}, 0.1, '-=1.1')
+				.from('.projects__underline--first', 0.8, {
+					x: -50,
+					width: 0,
+					ease: Quart.easeOut
+				},'-=0.8')
+				.from('.projects__underline--second', 0.8, {
+					x: -10,
+					width: 0,
+					ease: Quart.easeOut
+				},'-=0.6');
+				hasLoadedOnce = true
+			} 
+		}
 	} else {
 		TweenMax.to('.loader', 0,  {
 			opacity: 0,
 			display: 'none',
 		});
 	}
-	
+
+	document.addEventListener('touchstart', function(event) {
+	 video.play();
+	}, false);
 
 	//Expands init
 	let expands = []
@@ -65,4 +78,5 @@ window.onload = () => {
 	//Project init
 	let projects = new Projects();
 
-}
+} 
+

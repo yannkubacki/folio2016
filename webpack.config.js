@@ -1,3 +1,4 @@
+var webpack = require('webpack');
 var precss = require('precss');
 var autoprefixer = require('autoprefixer');
 
@@ -23,7 +24,8 @@ module.exports = {
             ScrollToPlugin: __dirname + '/node_modules/gsap/src/uncompressed/plugins/ScrollToPlugin.js',
             TweenMax: __dirname + '/node_modules/gsap/src/uncompressed/TweenMax.js',
             TimelineLite: __dirname + '/node_modules/gsap/src/uncompressed/TimelineLite.js',
-            ObjectFitPolyfill: __dirname + '/node_modules/object-fit-polyfill/dist/object-fit-polyfill.js'
+            ObjectFitPolyfill: __dirname + '/node_modules/object-fit-polyfill/dist/object-fit-polyfill.js',
+            Hoverintent: __dirname + '/node_modules/hoverintent/dist/hoverintent.min.js'
         }
     },
     module: {
@@ -42,11 +44,14 @@ module.exports = {
                 loader: 'style!css!postcss!stylus'
             },
             {
-                test: /\.(ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
+                test: /\.(jpg|ttf|eot|svg|woff(2)?)(\?[a-z0-9=&.]+)?$/,
                 loader : 'file-loader'
             }
-        ]
+        ],
     },
+    plugins: [
+        new webpack.optimize.UglifyJsPlugin({minimize: true})
+    ],
     postcss: function() {
         return [
             precss,
