@@ -3,31 +3,31 @@
 	z-index 10
 	top 5rem
 	left 5rem
-	width 36rem
+	width 30%
 	max-width 100%
 	font-size 1.5rem
 	line-height 2em
-	
+
 	&__title
 		font-family $Moderat-Bold
-	
+
 	&__name
 		color $indigo
-		
+
 	&__job
 		color $grey-dark
-		
+
 	&__intro
-		
+
 		a
 			position relative
 			display inline-block
 			underline()
-					
+
 			span
 				position relative
 				display inline-block
-				
+
 				&:after
 					content ''
 					position absolute
@@ -37,22 +37,22 @@
 					width 100%
 					height 0.1rem
 					background rgba($indigo, 0.25)
-	
+
 	&__projects
 		margin-top 4rem
-		
+
 	&__list
 		list-style-type none
-		
+
 	&__list-item
 		display flex
 		align-items center
-		
+
 		> a
 			position relative
 			display inline-block
 			underline()
-			
+
 		&--confidential
 			cursor default
 			&:after
@@ -63,14 +63,31 @@
 				transform translateX(-1rem)
 				opacity 0
 				transition transform 0.25s ease-out, opacity 0.25s ease-out
-				
+
 			&:hover
-				
+
 				&:after
 					transform translateX(0)
 					opacity 1
-				
-		&:before 
+
+		&--soon
+			cursor default
+			&:after
+				content '(3D stuffs coming soon)'
+				margin-left 0.5rem
+				font-size 1.2rem
+				color rgba($grey, 0.75)
+				transform translateX(-1rem)
+				opacity 0
+				transition transform 0.25s ease-out, opacity 0.25s ease-out
+
+			&:hover
+
+				&:after
+					transform translateX(0)
+					opacity 1
+
+		&:before
 			content ''
 			display block
 			width 0.5rem
@@ -82,22 +99,19 @@
 		position static
 		width 60rem
 		padding 0 2rem
-		
+
 		&__title
 			margin-bottom 0.5rem
 			line-height 1.5em
 			text-transform uppercase
-			
+
 		&__name, &__job
 			display block
-		
+
 		&__projects
 			margin-top 3rem
-			
-	@media (max-width: $mobile)		
-		&__intro
-			br 
-				display none
-		
 
-	
+	@media (max-width: $mobile)
+		&__intro
+			br
+				display none
